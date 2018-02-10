@@ -1,5 +1,9 @@
 # gcc coverage testing tool files
+# temp files
+# backup files from emacs
 
+*.o
+*~
 *.gcno
 *.gcda
 *.gcov
