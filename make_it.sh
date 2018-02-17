@@ -185,12 +185,18 @@ function add_makefile {
     do
 	if [ "$index" -eq 1 ]
 	then
-	    printf "SRC=$i \\ \n" >> Makefile
+	    printf "SRC=$i" >> Makefile
+	    if [ "$index" ! -eq "$max_index" ]
+	    then
+	       printf " \\"
+	    fi
+	    printf "\n" >> Makefile
 	elif [ "$index" -eq "$max_index" ]
 	then
 	    printf "\t$i \n\n" >> Makefile
 	else
-	    printf "\t$i \\ \n" >> Makefile
+	    printf "\t$i \\" >> Makefile
+	    printf "\n" >> Makefile
 	fi
 	index=$(echo $index + 1 | bc)
     done
