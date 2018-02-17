@@ -45,6 +45,10 @@ function get_size_arr {
 
 ## GET USER INPUT AND CHECK IT
 function user_input {
+    printf "\e[1mYour current directory:\e[0m\n$PWD\n"
+    printf "\e[1mYour directory contains\e[0m\n"
+    ls -d */
+    printf "\n"
     printf "\e[1mSources\e[0m directory name\n> "
     read dirsrc
     printf "\e[1mLibraries\e[0m directory name\n> "
@@ -95,7 +99,7 @@ function build_src {
     else
 	printf "Found \e[1m\e[32m$dirsrc\e[0m ! Now adding sources\n\n"
     fi
-    src_list=($(ls "$dirsrc/" | grep .c))
+    src_list=($(ls "$dirsrc/" | grep "\.c$"))
     for i in ${src_list[@]}
     do
 	printf "Sources $bold_green$i$end_char found. Adding it.\n"
@@ -157,26 +161,30 @@ function add_makefile {
     do
 	if [ "$index" -eq 1 ]
 	then
-	    printf "LDFLAGS+= $i" >> Makefile
+	    printf "LDFLAGS+= $i\t\\" >> Makefile
+	    printf "\n" >> Makefile
+	elif [ "$index" -eq "$max_index" ]
+	then
+	    printf "\t$i\n\n" >> Makefile
 	else
-	    printf "$i\n" >> Makefile
+	    printf "\t$i\t\\" >> Makefile
+	    printf "\n" >> Makefile
 	fi
 	index=$(echo $index + 1 | bc)
     done
     index=1
-    printf "\n" >> Makefile
 
     printf "Adding \e[1mlibraries directory\e[0m\n"
     for i in ${dirlib_content[@]}
     do
 	printf "DIRLIB=${dirlib[*]}/$i\n\n" >> Makefile
-	printf "DIRLIB = ${dirlib[*]}/$i\n"
+	printf "DIRLIB = ./${dirlib[*]}/$i\n"
     done
     printf "\n"
 
     printf "Adding \e[1msources directory\e[0m\n"
     printf "DIR = ${dirsrc[*]}\n\n"
-    printf "DIR=${dirsrc[*]}\n\n" >> Makefile
+    printf "DIR=./${dirsrc[*]}\n\n" >> Makefile
 
     printf "Adding \e[1msources\e[0m\n"
     printf "SRC = ${src[*]}\n\n"
@@ -186,9 +194,9 @@ function add_makefile {
 	if [ "$index" -eq 1 ]
 	then
 	    printf "SRC=$i" >> Makefile
-	    if [ "$index" ! -eq "$max_index" ]
+	    if [ "$index" -ne "$max_index" ]
 	    then
-	       printf " \\"
+	       printf " \\" >> Makefile
 	    fi
 	    printf "\n" >> Makefile
 	elif [ "$index" -eq "$max_index" ]
@@ -232,9 +240,16 @@ function add_makefile {
     printf "fclean:clean\n" >> Makefile
     printf "\tmake -C \$(DIRLIB) fclean\n" >> Makefile
     printf "\trm -f \$(EXEC)\n\n" >> Makefile
+    printf "fclean:clean\n"
+    printf "make -C \$(DIRLIB) fclean\n"
+    printf "rm -f \$(EXEC)\n\n"
 
     printf "Adding \e[1m\"re\" rule\e[0m\n"
     printf "re:fclean all\n\n" >> Makefile
+    printf "re:fclean all\n\n"
+
+    printf $bold_green"Makefile generated well!$end_char\n"
+    printf "Now exiting make_it...\n"
     exit 0
 }
 
@@ -250,4 +265,13 @@ function main {
     add_makefile $1
 }
 
-main $1
+binary_name=""
+
+if [ -z "$1" ]
+then
+    binary_name="to_change"
+else
+    binary_name=$1
+fi
+
+main $binary_name
