@@ -12,8 +12,7 @@ fi
 clear
 
 # constant string
-## TODO: automatic year
-header="##\n## EPITECH PROJECT, 2017\n## makefile\n## File description\n## makefile\n##"
+header="##\n## EPITECH PROJECT, $(date +%G)\n## makefile\n## File description\n## makefile\n##"
 exit_msg="Exiting make_it now..."
 bold_green="\e[1m\e[32m"
 end_char="\e[0m"
@@ -32,19 +31,10 @@ src=()
 # 1 = at least one directory from user input not found
 # 2 = sources not found
 
-## SOME USEFUL FUNCTIONS
-function get_size_arr {
-    arr=("$@")
-    local index=0
-    for i in ${arr[@]}
-    do
-	index=$(echo $index + 1 | bc)
-    done
-    echo $index
-}
-
 ## GET USER INPUT AND CHECK IT
 function user_input {
+    printf "Currently in \e[1m$PWD\e[0m\n"
+    printf "\e[34m\e[1m$(ls -d */)\e[0m\n"
     printf "\e[1mSources\e[0m directory name\n> "
     read dirsrc
     printf "\e[1mLibraries\e[0m directory name\n> "
@@ -137,12 +127,10 @@ function add_cflags {
     cflags+="-I $include"
 }
 
-# cflags ldflags dirlib dir rm src obj exec all $(exec) clean fclean re phony
-
 ## ADDING TO MAKEFILE
 function add_makefile {
-    index=1
-    max_index=0
+    local index=1
+    local max_index=0
     printf "Adding \e[1mEPITECH header\e[0m\n\n"
     printf "$header\n\n" > Makefile
 
@@ -152,7 +140,7 @@ function add_makefile {
 
     printf "Adding \e[1mlibraries flags\e[0m\n"
     printf "LDFLAGS = ${ldflags[*]}\n\n"
-    max_index=$(get_size_arr ${ldflags[@]})
+    max_index=${#ldflags[*]}
     for i in ${ldflags[@]}
     do
 	if [ "$index" -eq 1 ]
@@ -184,7 +172,7 @@ function add_makefile {
 
     printf "Adding \e[1msources\e[0m\n"
     printf "SRC = ${src[*]}\n\n"
-    max_index=$(get_size_arr ${src[@]})
+    max_index=${#src[*]}
     for i in ${src[@]}
     do
 	if [ "$index" -eq 1 ]
@@ -261,11 +249,10 @@ function main {
     add_makefile $1
 }
 
-binary_name=""
-
 if [ -z "$1" ]
 then
-    binary_name="to_change"
+    printf "You forgot the binary name.\nSpecify it > "
+    read binary_name
 else
     binary_name=$1
 fi
