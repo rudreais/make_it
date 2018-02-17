@@ -1,14 +1,15 @@
 #!/bin/bash
 
-clear
-
 ## USAGE
 if [ "$1" == "-h" ]
 then
     printf "Usage:\n\t./make_it.sh [binary name]\n"
     printf "\tmake_it generates a makefile with basic rules: all, clean, fclean and re\n"
+    printf "\tSee https://github.com/rudreais/make_it for sources and usage\n"
     exit
 fi
+
+clear
 
 # constant string
 ## TODO: automatic year
@@ -30,7 +31,6 @@ src=()
 ### RETURN VALUE
 # 1 = at least one directory from user input not found
 # 2 = sources not found
-# 3 =
 
 ## SOME USEFUL FUNCTIONS
 function get_size_arr {
