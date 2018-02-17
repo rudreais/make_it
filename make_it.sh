@@ -2,6 +2,14 @@
 
 clear
 
+###
+#
+#	make_it
+#	valentin.lattay@epitech.eu
+#	automatic makefile generator
+#
+###
+
 ## USAGE
 if [ "$1" == "-h" ]
 then
@@ -275,3 +283,4 @@ else
 fi
 
 main $binary_name
+
