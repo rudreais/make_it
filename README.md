@@ -31,6 +31,9 @@ $ tree
 4 directories, 16 files
 ```
 this is just a project template, but it contains an include folder, a lib folder that itself contains a sub directory "my" that is a library, and a source folder containing all .c.
+
 that way, make_it will look for each directory and create flags.
+
 furthermore, make_it was built for EPITECH projects.
+
 feel free to adapt make_it or your own architecture.
