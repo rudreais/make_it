@@ -2,14 +2,6 @@
 
 clear
 
-###
-#
-#	make_it
-#	valentin.lattay@epitech.eu
-#	automatic makefile generator
-#
-###
-
 ## USAGE
 if [ "$1" == "-h" ]
 then
@@ -53,10 +45,6 @@ function get_size_arr {
 
 ## GET USER INPUT AND CHECK IT
 function user_input {
-    printf "\e[1mYour current directory:\e[0m\n$PWD\n"
-    printf "\e[1mYour directory contains\e[0m\n"
-    ls -d */
-    printf "\n"
     printf "\e[1mSources\e[0m directory name\n> "
     read dirsrc
     printf "\e[1mLibraries\e[0m directory name\n> "
@@ -160,7 +148,7 @@ function add_makefile {
 
     printf "Adding \e[1mC flags\e[0m\n"
     printf "CFLAGS = ${cflags[*]}\n\n"
-    printf "CFLAGS+= ${cflags[*]}\n\n" >> Makefile
+    printf "CFLAGS\t\t+=\t${cflags[*]}\n\n" >> Makefile
 
     printf "Adding \e[1mlibraries flags\e[0m\n"
     printf "LDFLAGS = ${ldflags[*]}\n\n"
@@ -169,13 +157,13 @@ function add_makefile {
     do
 	if [ "$index" -eq 1 ]
 	then
-	    printf "LDFLAGS+= $i\t\\" >> Makefile
+	    printf "LDFLAGS\t+=\t$i\t\\" >> Makefile
 	    printf "\n" >> Makefile
 	elif [ "$index" -eq "$max_index" ]
 	then
-	    printf "\t$i\n\n" >> Makefile
+	    printf "\t\t\t$i\n\n" >> Makefile
 	else
-	    printf "\t$i\t\\" >> Makefile
+	    printf "\t\t\t$i\t\\" >> Makefile
 	    printf "\n" >> Makefile
 	fi
 	index=$(echo $index + 1 | bc)
@@ -185,14 +173,14 @@ function add_makefile {
     printf "Adding \e[1mlibraries directory\e[0m\n"
     for i in ${dirlib_content[@]}
     do
-	printf "DIRLIB=${dirlib[*]}/$i\n\n" >> Makefile
+	printf "DIRLIB\t\t=\t${dirlib[*]}/$i\n\n" >> Makefile
 	printf "DIRLIB = ./${dirlib[*]}/$i\n"
     done
     printf "\n"
 
     printf "Adding \e[1msources directory\e[0m\n"
     printf "DIR = ${dirsrc[*]}\n\n"
-    printf "DIR=./${dirsrc[*]}\n\n" >> Makefile
+    printf "DIR\t\t=\t./${dirsrc[*]}\n\n" >> Makefile
 
     printf "Adding \e[1msources\e[0m\n"
     printf "SRC = ${src[*]}\n\n"
@@ -201,17 +189,17 @@ function add_makefile {
     do
 	if [ "$index" -eq 1 ]
 	then
-	    printf "SRC=$i" >> Makefile
+	    printf "SRC\t\t=\t$i" >> Makefile
 	    if [ "$index" -ne "$max_index" ]
 	    then
-	       printf " \\" >> Makefile
+	       printf "\t\t\\" >> Makefile
 	    fi
 	    printf "\n" >> Makefile
 	elif [ "$index" -eq "$max_index" ]
 	then
-	    printf "\t$i \n\n" >> Makefile
+	    printf "\t\t\t$i \n\n" >> Makefile
 	else
-	    printf "\t$i \\" >> Makefile
+	    printf "\t\t\t$i\t\t\\" >> Makefile
 	    printf "\n" >> Makefile
 	fi
 	index=$(echo $index + 1 | bc)
@@ -219,41 +207,41 @@ function add_makefile {
     index=1
 
     printf "Adding \e[1mbinary name\e[0m\n"
-    printf "EXEC=$1\n\n" >> Makefile
+    printf "EXEC\t\t=\t$1\n\n" >> Makefile
     printf "EXEC = $1\n\n"
 
-    printf "OBJ=\$(SRC:.c=.o)\n\n" >> Makefile
+    printf "OBJ\t\t=\t\$(SRC:.c=.o)\n\n" >> Makefile
 
     printf "Adding \e[1m\"all\" rule\e[0m\n"
     printf "all:\$(EXEC)\n\n"
-    printf "all:\$(EXEC)\n\n" >> Makefile
+    printf "all:\t\t\t\$(EXEC)\n\n" >> Makefile
 
     printf "Adding \e[1m\"\$(EXEC)\" rule\e[0m\n"
-    printf "\$(EXEC):\$(OBJ)\n" >> Makefile
-    printf "\tmake -C \$(DIRLIB)\n" >> Makefile
-    printf "\t\$(CC) -o \$(EXEC) \$(OBJ) \$(LDFLAGS) \$(CFLAGS)\n\n" >> Makefile
+    printf "\$(EXEC):\t\t\$(OBJ)\n" >> Makefile
+    printf "\t\t\tmake -C \$(DIRLIB)\n" >> Makefile
+    printf "\t\t\t\$(CC) -o \$(EXEC) \$(OBJ) \$(LDFLAGS) \$(CFLAGS)\n\n" >> Makefile
     printf "\$(EXEC):\$(OBJ)\n"
     printf "make -C \$(DIRLIB)\n"
     printf "\$(CC) -o \$(EXEC) \$(OBJ) \$(LDFLAGS) \$(CFLAGS)\n\n"
 
     printf "Adding \e[1m\"clean\" rule\e[0m\n"
     printf "clean:\n" >> Makefile
-    printf "\tmake -C \$(DIRLIB) clean\n" >> Makefile
-    printf "\trm -f \$(OBJ)\n\n" >> Makefile
+    printf "\t\t\tmake -C \$(DIRLIB) clean\n" >> Makefile
+    printf "\t\t\trm -f \$(OBJ)\n\n" >> Makefile
     printf "clean:\n"
     printf "make -C \$(DIRLIB) clean\n"
     printf "rm -f \$(OBJ)\n\n"
 
     printf "Adding \e[1m\"fclean\" rule\e[0m\n"
     printf "fclean:clean\n" >> Makefile
-    printf "\tmake -C \$(DIRLIB) fclean\n" >> Makefile
-    printf "\trm -f \$(EXEC)\n\n" >> Makefile
+    printf "\t\t\tmake -C \$(DIRLIB) fclean\n" >> Makefile
+    printf "\t\t\trm -f \$(EXEC)\n\n" >> Makefile
     printf "fclean:clean\n"
     printf "make -C \$(DIRLIB) fclean\n"
     printf "rm -f \$(EXEC)\n\n"
 
     printf "Adding \e[1m\"re\" rule\e[0m\n"
-    printf "re:fclean all\n\n" >> Makefile
+    printf "re:\t\t\tfclean all\n\n" >> Makefile
     printf "re:fclean all\n\n"
 
     printf $bold_green"Makefile generated well!$end_char\n"
@@ -283,4 +271,3 @@ else
 fi
 
 main $binary_name
-
