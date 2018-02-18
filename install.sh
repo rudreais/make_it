@@ -3,6 +3,8 @@
 ### CONSTANT
 make_it="\e[1mmake_it\e[0m"
 default_dir="$HOME/bin"
+src_dir="src/"
+src_content=("make_it.sh" "test.sh")
 
 ### RETURN VALUE
 # 1 = NOT ROOT
@@ -37,7 +39,7 @@ then
     bin_repo="$default_dir"
 fi
 
-cp make_it.sh $bin_repo
+cp $src_dir${src_content[0]} $bin_repo
 mv "$bin_repo/make_it.sh" "$bin_repo/make_it"
 
 printf "Now adding \e[1m$bin_repo\e[0m to your PATH.\n"
