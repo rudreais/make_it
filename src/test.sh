@@ -13,8 +13,5 @@ done
 
 for i in "${include[@]}"
 do
-    if [ -n "$(echo $i | grep \^#include)" ]
-    then
-	printf "$i"
-    fi
+    printf "$i"
 done
