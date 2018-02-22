@@ -39,6 +39,7 @@ then
     bin_repo="$default_dir"
 fi
 
+printf "Copying file into directory.\n"
 cp $src_dir${src_content[0]} $bin_repo
 mv "$bin_repo/make_it.sh" "$bin_repo/make_it"
 
