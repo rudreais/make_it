@@ -1,7 +1,8 @@
 # make_it
 automatic creation of makefile for C project
 
-## example
-here is a little video of how to use it.
+## how to install
+just run the `install.sh` file as root
 
-[demo video](https://asciinema.org/a/CVN6s2mctdpllF3DZfl1aTBjS)
+## how to use
+[short video](https://asciinema.org/a/CVN6s2mctdpllF3DZfl1aTBjS)
